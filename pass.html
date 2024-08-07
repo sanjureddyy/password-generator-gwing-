@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Password Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .password-container {
+            margin-top: 20px;
+            display: flex;
+        }
+
+        .password-container input {
+            flex: 1;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .password-container button {
+            padding: 5px 10px;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .message {
+            margin-top: 10px;
+            color: green;
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Random Password Generator</h1>
+        <div class="input-group">
+            <label for="length">Password Length:</label>
+            <input type="number" id="length" min="4" max="20" value="12">
+        </div>
+        <button id="generateBtn">Generate Password</button>
+        <div class="password-container">
+            <input type="text" id="password" readonly>
+            <button id="copyBtn">Copy</button>
+        </div>
+        <div id="message" class="message"></div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('generateBtn').addEventListener('click', generatePassword);
+            document.getElementById('copyBtn').addEventListener('click', copyToClipboard);
+        });
+
+        function generatePassword() {
+            const length = document.getElementById('length').value;
+            console.log('Password length:', length);  // Debugging line
+            const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=';
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * charset.length);
+                password += charset[randomIndex];
+            }
+            console.log('Generated password:', password);  // Debugging line
+            document.getElementById('password').value = password;
+        }
+
+        function copyToClipboard() {
+            const passwordField = document.getElementById('password');
+            passwordField.select();
+            document.execCommand('copy');
+
+            const message = document.getElementById('message');
+            message.textContent = 'Password copied to clipboard!';
+            message.style.visibility = 'visible';
+            setTimeout(() => {
+                message.style.visibility = 'hidden';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
